@@ -20,10 +20,10 @@ namespace _4opeenrij
 
         private void GameStartScreen_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'b2D4_CasusDataSetUsers2.users' table. You can move, or remove it, as needed.
-            this.usersTableAdapter1.Fill(this.b2D4_CasusDataSetUsers2.users);
-            // TODO: This line of code loads data into the 'b2D4_CasusDataSetUsers.users' table. You can move, or remove it, as needed.
-            this.usersTableAdapter.Fill(this.b2D4_CasusDataSetUsers.users);
+            // TODO: This line of code loads data into the 'playerTwoOptions.players' table. You can move, or remove it, as needed.
+            this.playersTableAdapter1.Fill(this.playerTwoOptions.players);
+            // TODO: This line of code loads data into the 'playerOneOptions.players' table. You can move, or remove it, as needed.
+            this.playersTableAdapter.Fill(this.playerOneOptions.players);
 
         }
 

@@ -69,6 +69,16 @@
     <Compile Include="LandingScreen.Designer.cs">
       <DependentUpon>LandingScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="playerOneOptions.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>playerOneOptions.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="playerTwoOptions.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>playerTwoOptions.xsd</DependentUpon>
+    </Compile>
     <Compile Include="StartGameScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +136,28 @@
       <DependentUpon>B2D4_CasusDataSetUsers2.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="playerOneOptions.xsc">
+      <DependentUpon>playerOneOptions.xsd</DependentUpon>
+    </None>
+    <None Include="playerOneOptions.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>playerOneOptions.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="playerOneOptions.xss">
+      <DependentUpon>playerOneOptions.xsd</DependentUpon>
+    </None>
+    <None Include="playerTwoOptions.xsc">
+      <DependentUpon>playerTwoOptions.xsd</DependentUpon>
+    </None>
+    <None Include="playerTwoOptions.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>playerTwoOptions.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="playerTwoOptions.xss">
+      <DependentUpon>playerTwoOptions.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

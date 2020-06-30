@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace _4opeenrij.Objects
 {
@@ -15,7 +16,7 @@ namespace _4opeenrij.Objects
         private DateTime gameStarted;
         private DateTime gameEnded;
         private List<Move> moves;
-        private bool canMakeMove = true;
+        private bool canMakeMoves = true;
 
         // Players
         private Player playerOne;
@@ -38,47 +39,169 @@ namespace _4opeenrij.Objects
         public Player PlayerOne { get => playerOne; set => playerOne = value; }
         public Player PlayerTwo { get => playerTwo; set => playerTwo = value; }
         public Player Winner { get => winner; set => winner = value; }
+        public bool CanMakeMoves { get => canMakeMoves; set => canMakeMoves = value; }
 
-        public bool CanMakeMove(int row, int column)
+        public bool CanMakeMove(int x, int y)
         {
-            if (!this.canMakeMove) return false;
+            if (!this.CanMakeMoves) return false;
 
             foreach (Move move in this.Moves)
             {
-                if (move.Column == column && move.Row == row)
+                if (move.X == x && move.Y == y)
                 {
-                    return true;
-                }
-                else
-                {
-                    continue;
+                    return false;
                 }
             }
 
-            return false;
+            return true;
         }
 
-        public void MakeMove(Player player, int row, int column)
+        public Move GetMove(int x, int y)
+        {
+            foreach (Move move in this.Moves)
+            {
+                if (move.X == x && move.Y == y)
+                {
+                    return move;
+                }
+            }
+
+            return null;
+        }
+
+        public void MakeMove(Player player, int x, int y)
         {
             // Check if there already is a move set at the specified location.
-            if (!this.CanMakeMove(row, column))
+            if (!this.CanMakeMove(x, y))
             {
                 return;
             }
 
             // Make the move
-            Move move = new Move(player, column, row);
+            Move move = new Move(player, this, x, y);
             Moves.Add(move);
 
-            // Set Make move to false for 1 second so the field can update and players won't be able to spam moves.
-            this.canMakeMove = false;
+            // Save the move to Database
+            move.CreateToDB();
+
+            MessageBox.Show("Move made by " + player.Name + " to location (" + x + ", " + y + ")");
+
+            // Make the players not able to make another move for another second, this makes sure the next move will be able to be registered.
+            this.CanMakeMoves = false;
+
+            // While the player is not able to make another move check if the game has been won.
+            if (this.CheckIfGameWon(player, x, y)) return;
 
             Thread.Sleep(1000);
 
-            this.canMakeMove = true;
+            this.CanMakeMoves = true;
+        }
 
-            // Save the move to Database
-            move.SaveToDB();
+        public bool CheckIfGameWon(Player player, int x, int y)
+        {
+            List<Move> InARow = new List<Move>();
+            /* 
+             1  2  3  4  5  6  7
+             8  9 10 11 12 13 14
+            15 16 17 18 19 20 21
+            22 23 24 25 26 27 28
+            29 30 31 32 33 34 35
+            36 37 38 39 40 41 42
+            */
+
+            // Check horizontal
+            InARow.Clear();
+
+            // Check to the left.
+            for (int i = x; i >= 1; i--)
+            {
+                Move move = this.GetMove(i, y);
+
+                if (move != null && move.Player == player && !InARow.Contains(move))
+                {
+                    InARow.Add(move);
+
+                    continue;
+                }
+
+                break;
+            }
+
+            // Check to the right.
+            for (int i = x; i <= 7; i++)
+            {
+                Move move = this.GetMove(i, y);
+
+                if (move != null && move.Player == player && !InARow.Contains(move))
+                {
+                    InARow.Add(move);
+
+                    continue;
+                }
+
+                break;
+            }
+
+            if (InARow.Count >= 4)
+            {
+                this.GameWon(player);
+
+                return true;
+            }
+
+            // Check vertical
+            InARow.Clear();
+
+            // Check to the top.
+            for (int i = y; i >= 1; i--)
+            {
+                Move move = this.GetMove(x, i);
+
+                if (move != null && move.Player == player && !InARow.Contains(move))
+                {
+                    InARow.Add(move);
+
+                    continue;
+                }
+
+                break;
+            }
+
+            // Check to the bottom.
+            for (int i = y; i <= 6; i++)
+            {
+                Move move = this.GetMove(x, i);
+
+                if (move != null && move.Player == player && !InARow.Contains(move))
+                {
+                    InARow.Add(move);
+
+                    continue;
+                }
+
+                break;
+            }
+
+            if (InARow.Count >= 4)
+            {
+                this.GameWon(player);
+
+                return true;
+            }
+
+            // Check diagonal
+
+            return false;
+        }
+
+        public void GameWon(Player player)
+        {
+            this.gameEnded = DateTime.Now;
+            this.winner = player;
+
+            MessageBox.Show("Het spel is gewonnen door " + player.Name + "!");
+
+            this.UpdateToDB();
         }
 
         public void CreateToDB()
@@ -88,21 +211,20 @@ namespace _4opeenrij.Objects
                 connection.Open();
 
                 SqlCommand command = new SqlCommand(null, connection);
-                command.CommandText = "INSERT INTO dbo.games (game_started, user_1, user_2) VALUES (@game_started, @user_1, @user_2); SELECT SCOPE_IDENTITY();";
-
+                command.CommandText = "INSERT INTO dbo.games (game_started, player_1, player_2) VALUES (@game_started, @player_1, @player_2); SELECT SCOPE_IDENTITY();";
 
                 SqlParameter gameStartedParam = new SqlParameter("@game_started", SqlDbType.DateTime, 0);
                 gameStartedParam.Value = this.GameStarted;
 
-                SqlParameter userOneParam = new SqlParameter("@user_1", SqlDbType.Int, 0);
-                userOneParam.Value = PlayerOne.Id;
+                SqlParameter playerOneParam = new SqlParameter("@player_1", SqlDbType.Int, 0);
+                playerOneParam.Value = PlayerOne.Id;
 
-                SqlParameter userTwoParam = new SqlParameter("@user_2", SqlDbType.Int, 0);
-                userTwoParam.Value = PlayerTwo.Id;
+                SqlParameter playerTwoParam = new SqlParameter("@player_2", SqlDbType.Int, 0);
+                playerTwoParam.Value = PlayerTwo.Id;
 
                 command.Parameters.Add(gameStartedParam);
-                command.Parameters.Add(userOneParam);
-                command.Parameters.Add(userTwoParam);
+                command.Parameters.Add(playerOneParam);
+                command.Parameters.Add(playerTwoParam);
 
                 command.Prepare();
                 this.Id = Convert.ToInt32(command.ExecuteScalar());
@@ -118,19 +240,19 @@ namespace _4opeenrij.Objects
                 connection.Open();
 
                 SqlCommand command = new SqlCommand(null, connection);
-                command.CommandText = "UPDATE dbo.games SET game_ended = @game_ended, user_winner = @user_winner WHERE id = @id;";
+                command.CommandText = "UPDATE dbo.games SET game_ended = @game_ended, player_winner = @player_winner WHERE id = @id;";
 
                 SqlParameter gameEndedParam = new SqlParameter("@game_ended", SqlDbType.DateTime, 0);
                 gameEndedParam.Value = this.GameEnded;
 
-                SqlParameter userWinnerParam = new SqlParameter("@user_winner", SqlDbType.Int, 0);
-                userWinnerParam.Value = Winner.Id;
+                SqlParameter playerWinnerParam = new SqlParameter("@player_winner", SqlDbType.Int, 0);
+                playerWinnerParam.Value = Winner.Id;
 
                 SqlParameter idParam = new SqlParameter("@id", SqlDbType.Int, 0);
                 idParam.Value = this.Id;
 
                 command.Parameters.Add(gameEndedParam);
-                command.Parameters.Add(userWinnerParam);
+                command.Parameters.Add(playerWinnerParam);
                 command.Parameters.Add(idParam);
 
                 command.Prepare();

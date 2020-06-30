@@ -34,16 +34,16 @@
             this.comboBoxPlayerOne = new System.Windows.Forms.ComboBox();
             this.comboBoxPlayerTwo = new System.Windows.Forms.ComboBox();
             this.buttonStartGame = new System.Windows.Forms.Button();
-            this.b2D4_CasusDataSetUsers = new _4opeenrij.B2D4_CasusDataSetUsers();
-            this.usersBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.usersTableAdapter = new _4opeenrij.B2D4_CasusDataSetUsersTableAdapters.usersTableAdapter();
-            this.b2D4_CasusDataSetUsers2 = new _4opeenrij.B2D4_CasusDataSetUsers2();
-            this.usersBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.usersTableAdapter1 = new _4opeenrij.B2D4_CasusDataSetUsers2TableAdapters.usersTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.b2D4_CasusDataSetUsers)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.b2D4_CasusDataSetUsers2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource1)).BeginInit();
+            this.playerOneOptions = new _4opeenrij.playerOneOptions();
+            this.playersBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.playersTableAdapter = new _4opeenrij.playerOneOptionsTableAdapters.playersTableAdapter();
+            this.playerTwoOptions = new _4opeenrij.playerTwoOptions();
+            this.playersBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.playersTableAdapter1 = new _4opeenrij.playerTwoOptionsTableAdapters.playersTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this.playerOneOptions)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playersBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playerTwoOptions)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playersBindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // labelPlayerOne
@@ -66,8 +66,8 @@
             // 
             // comboBoxPlayerOne
             // 
-            this.comboBoxPlayerOne.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.usersBindingSource, "id", true));
-            this.comboBoxPlayerOne.DataSource = this.usersBindingSource;
+            this.comboBoxPlayerOne.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.playersBindingSource, "id", true));
+            this.comboBoxPlayerOne.DataSource = this.playersBindingSource;
             this.comboBoxPlayerOne.DisplayMember = "name";
             this.comboBoxPlayerOne.FormattingEnabled = true;
             this.comboBoxPlayerOne.Location = new System.Drawing.Point(15, 47);
@@ -78,8 +78,8 @@
             // 
             // comboBoxPlayerTwo
             // 
-            this.comboBoxPlayerTwo.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.usersBindingSource1, "id", true));
-            this.comboBoxPlayerTwo.DataSource = this.usersBindingSource1;
+            this.comboBoxPlayerTwo.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.playersBindingSource1, "id", true));
+            this.comboBoxPlayerTwo.DataSource = this.playersBindingSource1;
             this.comboBoxPlayerTwo.DisplayMember = "name";
             this.comboBoxPlayerTwo.FormattingEnabled = true;
             this.comboBoxPlayerTwo.Location = new System.Drawing.Point(186, 47);
@@ -98,35 +98,35 @@
             this.buttonStartGame.UseVisualStyleBackColor = true;
             this.buttonStartGame.Click += new System.EventHandler(this.buttonStartGame_Click);
             // 
-            // b2D4_CasusDataSetUsers
+            // playerOneOptions
             // 
-            this.b2D4_CasusDataSetUsers.DataSetName = "B2D4_CasusDataSetUsers";
-            this.b2D4_CasusDataSetUsers.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.playerOneOptions.DataSetName = "playerOneOptions";
+            this.playerOneOptions.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // usersBindingSource
+            // playersBindingSource
             // 
-            this.usersBindingSource.DataMember = "users";
-            this.usersBindingSource.DataSource = this.b2D4_CasusDataSetUsers;
+            this.playersBindingSource.DataMember = "players";
+            this.playersBindingSource.DataSource = this.playerOneOptions;
             // 
-            // usersTableAdapter
+            // playersTableAdapter
             // 
-            this.usersTableAdapter.ClearBeforeFill = true;
+            this.playersTableAdapter.ClearBeforeFill = true;
             // 
-            // b2D4_CasusDataSetUsers2
+            // playerTwoOptions
             // 
-            this.b2D4_CasusDataSetUsers2.DataSetName = "B2D4_CasusDataSetUsers2";
-            this.b2D4_CasusDataSetUsers2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.playerTwoOptions.DataSetName = "playerTwoOptions";
+            this.playerTwoOptions.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // usersBindingSource1
+            // playersBindingSource1
             // 
-            this.usersBindingSource1.DataMember = "users";
-            this.usersBindingSource1.DataSource = this.b2D4_CasusDataSetUsers2;
+            this.playersBindingSource1.DataMember = "players";
+            this.playersBindingSource1.DataSource = this.playerTwoOptions;
             // 
-            // usersTableAdapter1
+            // playersTableAdapter1
             // 
-            this.usersTableAdapter1.ClearBeforeFill = true;
+            this.playersTableAdapter1.ClearBeforeFill = true;
             // 
-            // GameStartScreen
+            // StartGameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -136,13 +136,13 @@
             this.Controls.Add(this.comboBoxPlayerOne);
             this.Controls.Add(this.labelPlayerTwo);
             this.Controls.Add(this.labelPlayerOne);
-            this.Name = "GameStartScreen";
+            this.Name = "StartGameScreen";
             this.Text = "4 op een rij";
             this.Load += new System.EventHandler(this.GameStartScreen_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.b2D4_CasusDataSetUsers)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.b2D4_CasusDataSetUsers2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playerOneOptions)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playersBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playerTwoOptions)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playersBindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,12 +155,12 @@
         private System.Windows.Forms.ComboBox comboBoxPlayerOne;
         private System.Windows.Forms.ComboBox comboBoxPlayerTwo;
         private System.Windows.Forms.Button buttonStartGame;
-        private B2D4_CasusDataSetUsers b2D4_CasusDataSetUsers;
-        private System.Windows.Forms.BindingSource usersBindingSource;
-        private B2D4_CasusDataSetUsersTableAdapters.usersTableAdapter usersTableAdapter;
-        private B2D4_CasusDataSetUsers2 b2D4_CasusDataSetUsers2;
-        private System.Windows.Forms.BindingSource usersBindingSource1;
-        private B2D4_CasusDataSetUsers2TableAdapters.usersTableAdapter usersTableAdapter1;
+        private playerOneOptions playerOneOptions;
+        private System.Windows.Forms.BindingSource playersBindingSource;
+        private playerOneOptionsTableAdapters.playersTableAdapter playersTableAdapter;
+        private playerTwoOptions playerTwoOptions;
+        private System.Windows.Forms.BindingSource playersBindingSource1;
+        private playerTwoOptionsTableAdapters.playersTableAdapter playersTableAdapter1;
     }
 }
 

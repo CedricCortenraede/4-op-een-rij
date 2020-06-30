@@ -21,7 +21,6 @@ namespace _4opeenrij
 
         // Game info
         private Game game;
-        private bool isPlaying = false;
 
         public InGameScreen(Game game)
         {
@@ -50,12 +49,12 @@ namespace _4opeenrij
             showCurrentStatusOfPlayingFieldThread.Start();
 
             // Make the game be playable
-            this.isPlaying = true;
+            game.CanMakeMoves = true;
         }
 
         private void CheckIfMoveWasMade()
         {
-            while (isPlaying)
+            while (game.Winner == null)
             {
                 foreach(Switch @switch in Domoticz.Domoticz.GetSwitches())
                 {
@@ -68,6 +67,7 @@ namespace _4opeenrij
                             if (@switch.Idx == @switchUsed.Idx)
                             {
                                 switchAlreadyRegistered = true;
+
                                 break;
                             }
                         }
@@ -79,14 +79,12 @@ namespace _4opeenrij
                         String[] wordsInName = @switch.Name.Replace("(", "").Replace(")", "").Replace(",", "").Split(' ');
 
                         Player player = (game.Moves.Count() % 2 == 0) ? game.PlayerOne : game.PlayerTwo;
-                        int row = int.Parse(wordsInName[1]);
-                        int column = int.Parse(wordsInName[2]);
+                        int x = int.Parse(wordsInName[1]);
+                        int y = int.Parse(wordsInName[2]);
 
-                        game.MakeMove(player, row, column);
+                        game.MakeMove(player, x, y);
                     }
                 }
-
-                MessageBox.Show(switchesUsed.Count() + "");
 
                 Thread.Sleep(1000);
             }
@@ -94,7 +92,7 @@ namespace _4opeenrij
     
         private void ShowCurrentStatusOfPlayingField()
         {
-            while (isPlaying)
+            while (game.Winner == null)
             {
                 // TODO FRONT END -> kijk naar game.Moves wordt geupdate
 
