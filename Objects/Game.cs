@@ -99,7 +99,6 @@ namespace _4opeenrij.Objects
 
         public bool CheckIfGameWon(Player player, int x, int y)
         {
-            List<Move> InARow = new List<Move>();
             /* 
              1  2  3  4  5  6  7
              8  9 10 11 12 13 14
@@ -109,8 +108,43 @@ namespace _4opeenrij.Objects
             36 37 38 39 40 41 42
             */
 
-            // Check horizontal
-            InARow.Clear();
+            bool gameWon = this.CheckIfGameWonHorizontally(player, x, y);
+
+            if (gameWon)
+            {
+                this.GameWon(player);
+
+                return true; ;
+            }
+
+            // Check vertical
+
+            gameWon = this.CheckIfGameWonVertically(player, x, y);
+
+            if (gameWon)
+            {
+                this.GameWon(player);
+
+                return true;
+            }
+
+            // Check diagonal
+
+            gameWon = false;
+
+            if (gameWon)
+            {
+                this.GameWon(player);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool CheckIfGameWonHorizontally(Player player, int x, int y)
+        {
+            List<Move> InARow = new List<Move>();
 
             // Check to the left.
             for (int i = x; i >= 1; i--)
@@ -144,13 +178,15 @@ namespace _4opeenrij.Objects
 
             if (InARow.Count >= 4)
             {
-                this.GameWon(player);
-
                 return true;
             }
 
-            // Check vertical
-            InARow.Clear();
+            return false;
+        }
+
+        private bool CheckIfGameWonVertically(Player player, int x, int y)
+        {
+            List<Move> InARow = new List<Move>();
 
             // Check to the top.
             for (int i = y; i >= 1; i--)
@@ -184,12 +220,8 @@ namespace _4opeenrij.Objects
 
             if (InARow.Count >= 4)
             {
-                this.GameWon(player);
-
                 return true;
             }
-
-            // Check diagonal
 
             return false;
         }

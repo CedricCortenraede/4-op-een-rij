@@ -71,6 +71,7 @@ namespace _4opeenrij
                             if (game.CanMakeMove(x, i))
                             {
                                 y = i;
+
                                 break;
                             }
                         }
