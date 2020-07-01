@@ -138,8 +138,6 @@ namespace _4opeenrij.Objects
             return false;
         }
 
-
-
         private bool CheckIfGameWonHorizontally(Player player, int x, int y)
         {
             List<Move> InARow = new List<Move>();
@@ -336,11 +334,10 @@ namespace _4opeenrij.Objects
             return false;
         }
 
-        
-
         public void GameOver(Player player, bool winner)
         {
             this.gameEnded = DateTime.Now;
+
             if (winner)
             {
                 this.winner = player;
@@ -352,8 +349,6 @@ namespace _4opeenrij.Objects
             }
 
             this.UpdateToDB();
-
-            
         }
 
         
@@ -393,19 +388,29 @@ namespace _4opeenrij.Objects
                 connection.Open();
 
                 SqlCommand command = new SqlCommand(null, connection);
-                command.CommandText = "UPDATE dbo.games SET game_ended = @game_ended, player_winner = @player_winner WHERE id = @id;";
+                if (winner != null)
+                {
+                    command.CommandText = "UPDATE dbo.games SET game_ended = @game_ended, player_winner = @player_winner WHERE id = @id;";
+                } else
+                {
+                    command.CommandText = "UPDATE dbo.games SET game_ended = @game_ended WHERE id = @id;";
+                }
 
                 SqlParameter gameEndedParam = new SqlParameter("@game_ended", SqlDbType.DateTime, 0);
                 gameEndedParam.Value = this.GameEnded;
 
-                SqlParameter playerWinnerParam = new SqlParameter("@player_winner", SqlDbType.Int, 0);
-                playerWinnerParam.Value = Winner.Id;
+                if (winner != null)
+                {
+                    SqlParameter playerWinnerParam = new SqlParameter("@player_winner", SqlDbType.Int, 0);
+                    playerWinnerParam.Value = Winner.Id;
+
+                    command.Parameters.Add(playerWinnerParam);
+                }
 
                 SqlParameter idParam = new SqlParameter("@id", SqlDbType.Int, 0);
                 idParam.Value = this.Id;
 
                 command.Parameters.Add(gameEndedParam);
-                command.Parameters.Add(playerWinnerParam);
                 command.Parameters.Add(idParam);
 
                 command.Prepare();
