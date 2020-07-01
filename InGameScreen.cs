@@ -21,6 +21,8 @@ namespace _4opeenrij
         // Game info
         private Game game;
 
+        private Board board;
+
         public InGameScreen(Game game)
         {
             InitializeComponent();
@@ -44,8 +46,7 @@ namespace _4opeenrij
             checkMovesThread.Start();
 
             // Start a Thread to show the current status of the playing field.
-            Thread showCurrentStatusOfPlayingFieldThread = new Thread(ShowCurrentStatusOfPlayingField);
-            showCurrentStatusOfPlayingFieldThread.Start();
+            
 
             // Make the game be playable
             game.CanMakeMoves = true;
@@ -79,6 +80,18 @@ namespace _4opeenrij
                         if (y == -1) break;
 
                         game.MakeMove(player, x, y);
+                        using(Graphics f = this.panel1.CreateGraphics())
+                        {
+                            if (game.Moves.Count % 2 == 0)
+                            {
+                                board.drawGamePiece(Color.Red, x, f);
+                            }
+                            else
+                            {
+                                board.drawGamePiece(Color.Yellow, x, f);
+                            }
+                        }
+                        
                     }
                 }
 
@@ -86,7 +99,7 @@ namespace _4opeenrij
             }
         }
     
-        private void ShowCurrentStatusOfPlayingField()
+        /*private void ShowCurrentStatusOfPlayingField()
         {
             while (game.Winner == null)
             {
@@ -94,6 +107,11 @@ namespace _4opeenrij
 
                 Thread.Sleep(1000);
             }
+        }*/
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            board.drawBoard(e);
         }
     }
 }

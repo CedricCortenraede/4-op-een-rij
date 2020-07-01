@@ -59,6 +59,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>B2D4_CasusDataSetUsers2.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Board.cs" />
     <Compile Include="Domoticz\Domoticz.cs" />
     <Compile Include="Domoticz\Log.cs" />
     <Compile Include="Domoticz\LogResult.cs" />
@@ -98,6 +99,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domoticz\Switch.cs" />
     <Compile Include="Domoticz\SwitchActionEnum.cs" />
+    <EmbeddedResource Include="InGameScreen.resx">
+      <DependentUpon>InGameScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LandingScreen.resx">
       <DependentUpon>LandingScreen.cs</DependentUpon>
     </EmbeddedResource>
