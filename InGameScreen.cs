@@ -17,7 +17,6 @@ namespace _4opeenrij
     {
         // General info
         private Switch[] switches;
-        private List<Switch> switchesUsed = new List<Switch>();
 
         // Game info
         private Game game;
@@ -60,27 +59,23 @@ namespace _4opeenrij
                 {
                     if (@switch.Status == "On")
                     {
-                        bool switchAlreadyRegistered = false;
+                        Domoticz.Domoticz.UseSwitch(@switch, SwitchActionEnum.Off);
 
-                        foreach (Switch @switchUsed in this.switchesUsed)
+                        String[] wordsInName = @switch.Name.Split(' ');
+
+                        Player player = (game.Moves.Count() % 2 == 0) ? game.PlayerOne : game.PlayerTwo;
+                        int x = int.Parse(wordsInName[0]);
+                        int y = -1;
+                        for (int i = 6; i >= 1; i--)
                         {
-                            if (@switch.Idx == @switchUsed.Idx)
+                            if (game.CanMakeMove(x, i))
                             {
-                                switchAlreadyRegistered = true;
-
+                                y = i;
                                 break;
                             }
                         }
 
-                        if (switchAlreadyRegistered) continue;
-
-                        this.switchesUsed.Add(@switch);
-
-                        String[] wordsInName = @switch.Name.Replace("(", "").Replace(")", "").Replace(",", "").Split(' ');
-
-                        Player player = (game.Moves.Count() % 2 == 0) ? game.PlayerOne : game.PlayerTwo;
-                        int x = int.Parse(wordsInName[1]);
-                        int y = int.Parse(wordsInName[2]);
+                        if (y == -1) break;
 
                         game.MakeMove(player, x, y);
                     }
