@@ -129,5 +129,10 @@ namespace _4opeenrij
                 label.Text = text;
             }
         }
+
+        private void InGameScreen_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

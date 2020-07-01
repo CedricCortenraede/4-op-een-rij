@@ -89,19 +89,20 @@ namespace _4opeenrij.Objects
 
             // While the player is not able to make another move check if the game has been won.
             if (this.CheckIfGameWon(player, x, y)) return;
+            
 
             Thread.Sleep(1000);
 
             this.CanMakeMoves = true;
         }
-
+        
         public bool CheckIfGameWon(Player player, int x, int y)
         {
             bool gameWon = this.CheckIfGameWonHorizontally(player, x, y);
 
             if (gameWon)
             {
-                this.GameWon(player);
+                this.GameOver(player, true);
 
                 return true;
             }
@@ -111,7 +112,7 @@ namespace _4opeenrij.Objects
 
             if (gameWon)
             {
-                this.GameWon(player);
+                this.GameOver(player, true);
 
                 return true;
             }
@@ -121,13 +122,23 @@ namespace _4opeenrij.Objects
 
             if (gameWon)
             {
-                this.GameWon(player);
+                this.GameOver(player, true);
 
+                return true;
+            }
+
+            //Check diagonal
+
+            if (moves.Count >= 42)
+            {
+                this.GameOver(player, false);
                 return true;
             }
 
             return false;
         }
+
+
 
         private bool CheckIfGameWonHorizontally(Player player, int x, int y)
         {
@@ -325,16 +336,27 @@ namespace _4opeenrij.Objects
             return false;
         }
 
-        public void GameWon(Player player)
+        
+
+        public void GameOver(Player player, bool winner)
         {
             this.gameEnded = DateTime.Now;
-            this.winner = player;
+            if (winner)
+            {
+                this.winner = player;
+                MessageBox.Show("Het spel is gewonnen door " + player.Name + "!");
+            }
+            else
+            {
+                MessageBox.Show("Gelijkspel!");
+            }
 
             this.UpdateToDB();
 
-            MessageBox.Show("Het spel is gewonnen door " + player.Name + "!");
+            
         }
 
+        
         public void CreateToDB()
         {
             using (SqlConnection connection = new SqlConnection("Data Source=DESKTOP-0NL1URL;Initial Catalog='B2D4 Casus';Integrated Security=True"))
