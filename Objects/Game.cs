@@ -99,26 +99,16 @@ namespace _4opeenrij.Objects
 
         public bool CheckIfGameWon(Player player, int x, int y)
         {
-            /* 
-             1  2  3  4  5  6  7
-             8  9 10 11 12 13 14
-            15 16 17 18 19 20 21
-            22 23 24 25 26 27 28
-            29 30 31 32 33 34 35
-            36 37 38 39 40 41 42
-            */
-
             bool gameWon = this.CheckIfGameWonHorizontally(player, x, y);
 
             if (gameWon)
             {
                 this.GameWon(player);
 
-                return true; ;
+                return true;
             }
 
             // Check vertical
-
             gameWon = this.CheckIfGameWonVertically(player, x, y);
 
             if (gameWon)
@@ -129,8 +119,7 @@ namespace _4opeenrij.Objects
             }
 
             // Check diagonal
-
-            gameWon = false;
+            gameWon = this.CheckIfGameWonDiagonally(player, x, y);
 
             if (gameWon)
             {
@@ -207,6 +196,94 @@ namespace _4opeenrij.Objects
             for (int i = y; i <= 6; i++)
             {
                 Move move = this.GetMove(x, i);
+
+                if (move != null && move.Player == player && !InARow.Contains(move))
+                {
+                    InARow.Add(move);
+
+                    continue;
+                }
+
+                break;
+            }
+
+            if (InARow.Count >= 4)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool CheckIfGameWonDiagonally(Player player, int x, int y)
+        {
+            /* 
+             1  2  3  4  5  6  7
+             8  9 10 11 12 13 14
+            15 16 17 18 19 20 21
+            22 23 24 25 26 27 28
+            29 30 31 32 33 34 35
+            36 37 38 39 40 41 42
+            */
+
+            List<Move> InARow = new List<Move>();
+
+            // Check to the top left.
+            for (int i = 0; i < 4; i++)
+            {
+                Move move = this.GetMove(x - i, y - i);
+
+                if (move != null && move.Player == player && !InARow.Contains(move))
+                {
+                    InARow.Add(move);
+
+                    continue;
+                }
+
+                break;
+            }
+
+            // Check to the bottom right.
+            for (int i = 0; i < 4; i++)
+            {
+                Move move = this.GetMove(x + i, y + i);
+
+                if (move != null && move.Player == player && !InARow.Contains(move))
+                {
+                    InARow.Add(move);
+
+                    continue;
+                }
+
+                break;
+            }
+
+            if (InARow.Count >= 4)
+            {
+                return true;
+            }
+                        
+            InARow.Clear();
+
+            // Check to the top right.
+            for (int i = 0; i < 4; i++)
+            {
+                Move move = this.GetMove(x + i, y - i);
+
+                if (move != null && move.Player == player && !InARow.Contains(move))
+                {
+                    InARow.Add(move);
+
+                    continue;
+                }
+
+                break;
+            }
+
+            // Check to the bottom left.
+            for (int i = 0; i < 4; i++)
+            {
+                Move move = this.GetMove(x - i, y + i);
 
                 if (move != null && move.Player == player && !InARow.Contains(move))
                 {
