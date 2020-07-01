@@ -84,8 +84,6 @@ namespace _4opeenrij.Objects
             // Save the move to Database
             move.CreateToDB();
 
-            MessageBox.Show("Move made by " + player.Name + " to location (" + x + ", " + y + ")");
-
             // Make the players not able to make another move for another second, this makes sure the next move will be able to be registered.
             this.CanMakeMoves = false;
 
@@ -140,9 +138,12 @@ namespace _4opeenrij.Objects
             {
                 Move move = this.GetMove(i, y);
 
-                if (move != null && move.Player == player && !InARow.Contains(move))
+                if (move != null && move.Player == player)
                 {
-                    InARow.Add(move);
+                    if (!InARow.Contains(move))
+                    {
+                        InARow.Add(move);
+                    }
 
                     continue;
                 }
@@ -155,9 +156,12 @@ namespace _4opeenrij.Objects
             {
                 Move move = this.GetMove(i, y);
 
-                if (move != null && move.Player == player && !InARow.Contains(move))
+                if (move != null && move.Player == player)
                 {
-                    InARow.Add(move);
+                    if (!InARow.Contains(move))
+                    {
+                        InARow.Add(move);
+                    }
 
                     continue;
                 }
@@ -182,9 +186,12 @@ namespace _4opeenrij.Objects
             {
                 Move move = this.GetMove(x, i);
 
-                if (move != null && move.Player == player && !InARow.Contains(move))
+                if (move != null && move.Player == player)
                 {
-                    InARow.Add(move);
+                    if (!InARow.Contains(move))
+                    {
+                        InARow.Add(move);
+                    }
 
                     continue;
                 }
@@ -197,9 +204,12 @@ namespace _4opeenrij.Objects
             {
                 Move move = this.GetMove(x, i);
 
-                if (move != null && move.Player == player && !InARow.Contains(move))
+                if (move != null && move.Player == player)
                 {
-                    InARow.Add(move);
+                    if (!InARow.Contains(move))
+                    {
+                        InARow.Add(move);
+                    }
 
                     continue;
                 }
@@ -233,9 +243,12 @@ namespace _4opeenrij.Objects
             {
                 Move move = this.GetMove(x - i, y - i);
 
-                if (move != null && move.Player == player && !InARow.Contains(move))
+                if (move != null && move.Player == player)
                 {
-                    InARow.Add(move);
+                    if (!InARow.Contains(move))
+                    {
+                        InARow.Add(move);
+                    }
 
                     continue;
                 }
@@ -248,9 +261,12 @@ namespace _4opeenrij.Objects
             {
                 Move move = this.GetMove(x + i, y + i);
 
-                if (move != null && move.Player == player && !InARow.Contains(move))
+                if (move != null && move.Player == player)
                 {
-                    InARow.Add(move);
+                    if (!InARow.Contains(move))
+                    {
+                        InARow.Add(move);
+                    }
 
                     continue;
                 }
@@ -270,9 +286,12 @@ namespace _4opeenrij.Objects
             {
                 Move move = this.GetMove(x + i, y - i);
 
-                if (move != null && move.Player == player && !InARow.Contains(move))
+                if (move != null && move.Player == player)
                 {
-                    InARow.Add(move);
+                    if (!InARow.Contains(move)) 
+                    {
+                        InARow.Add(move);
+                    }
 
                     continue;
                 }
@@ -285,9 +304,12 @@ namespace _4opeenrij.Objects
             {
                 Move move = this.GetMove(x - i, y + i);
 
-                if (move != null && move.Player == player && !InARow.Contains(move))
+                if (move != null && move.Player == player)
                 {
-                    InARow.Add(move);
+                    if (!InARow.Contains(move))
+                    {
+                        InARow.Add(move);
+                    }
 
                     continue;
                 }
@@ -308,9 +330,9 @@ namespace _4opeenrij.Objects
             this.gameEnded = DateTime.Now;
             this.winner = player;
 
-            MessageBox.Show("Het spel is gewonnen door " + player.Name + "!");
-
             this.UpdateToDB();
+
+            MessageBox.Show("Het spel is gewonnen door " + player.Name + "!");
         }
 
         public void CreateToDB()

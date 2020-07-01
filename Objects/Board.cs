@@ -64,14 +64,12 @@ namespace _4opeenrij
 
         }
 
-        public void drawGamePiece(Color brushColor, int Column, Graphics f)
+        public void drawGamePiece(Color brushColor, int x, int y, Graphics f)
         {
             SolidBrush myBrush = new SolidBrush(brushColor);
 
             
-            f.FillEllipse(myBrush, Column * 100 - 100, 500, 100, 100);
-
-
+            f.FillEllipse(myBrush, x * 100 - 100, (y * 100) - 100, 100, 100);
 
         }
     }

@@ -31,5 +31,11 @@ namespace _4opeenrij
                 startGameScreen.Show();
             }
         }
+
+        private void buttonRegister_Click(object sender, EventArgs e)
+        {
+            RegisterUserScreen registerUserScreen = new RegisterUserScreen();
+            registerUserScreen.Show();
+        }
     }
 }

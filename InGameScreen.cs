@@ -20,7 +20,6 @@ namespace _4opeenrij
 
         // Game info
         private Game game;
-
         private Board board;
 
         public InGameScreen(Game game)
@@ -28,6 +27,10 @@ namespace _4opeenrij
             InitializeComponent();
 
             this.game = game;
+            this.board = new Board();
+
+            // Show the right name under current move maker section.
+            this.SafelyWriteTextToLabel(labelMoveUsername, game.PlayerOne.Name);
 
             // Get all the switches from Domoticz.
             this.switches = Domoticz.Domoticz.GetSwitches();
@@ -38,15 +41,9 @@ namespace _4opeenrij
                 Domoticz.Domoticz.UseSwitch(@switch, SwitchActionEnum.Off);
             }
 
-            // Start a Thread to be able to activate the Switches.
-
-
             // Start a Thread to be able to retrieve the actions and display them on the screen.
             Thread checkMovesThread = new Thread(CheckIfMoveWasMade);
             checkMovesThread.Start();
-
-            // Start a Thread to show the current status of the playing field.
-            
 
             // Make the game be playable
             game.CanMakeMoves = true;
@@ -79,19 +76,21 @@ namespace _4opeenrij
 
                         if (y == -1) break;
 
+                        this.SafelyWriteTextToLabel(labelMoveUsername, (game.Moves.Count() % 2 == 0) ? game.PlayerTwo.Name : game.PlayerOne.Name);
+
                         game.MakeMove(player, x, y);
-                        using(Graphics f = this.panel1.CreateGraphics())
+
+                        using (Graphics f = this.panel1.CreateGraphics())
                         {
                             if (game.Moves.Count % 2 == 0)
                             {
-                                board.drawGamePiece(Color.Red, x, f);
+                                board.drawGamePiece(Color.Red, x, y, f);
                             }
                             else
                             {
-                                board.drawGamePiece(Color.Yellow, x, f);
+                                board.drawGamePiece(Color.Yellow, x, y, f);
                             }
                         }
-                        
                     }
                 }
 
@@ -112,6 +111,23 @@ namespace _4opeenrij
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             board.drawBoard(e);
+        }
+
+        private void SafelyWriteTextToLabel(Label label, string text)
+        {
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new MethodInvoker(
+                    delegate ()
+                    {
+                        label.Text = text;
+                    }
+                ));
+            }
+            else
+            {
+                label.Text = text;
+            }
         }
     }
 }

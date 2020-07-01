@@ -80,6 +80,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>playerTwoOptions.xsd</DependentUpon>
     </Compile>
+    <Compile Include="RegisterUserScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegisterUserScreen.Designer.cs">
+      <DependentUpon>RegisterUserScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="StartGameScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LandingScreen.resx">
       <DependentUpon>LandingScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegisterUserScreen.resx">
+      <DependentUpon>RegisterUserScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StartGameScreen.resx">
       <DependentUpon>StartGameScreen.cs</DependentUpon>
