@@ -78,19 +78,19 @@ namespace _4opeenrij
 
                         this.SafelyWriteTextToLabel(labelMoveUsername, (game.Moves.Count() % 2 == 0) ? game.PlayerTwo.Name : game.PlayerOne.Name);
 
-                        game.MakeMove(player, x, y);
-
                         using (Graphics f = this.panel1.CreateGraphics())
                         {
                             if (game.Moves.Count % 2 == 0)
                             {
-                                board.drawGamePiece(Color.Red, x, y, f);
+                                board.drawGamePiece(Color.Yellow, x, y, f);
                             }
                             else
                             {
-                                board.drawGamePiece(Color.Yellow, x, y, f);
+                                board.drawGamePiece(Color.Red, x, y, f);
                             }
                         }
+
+                        game.MakeMove(player, x, y);
                     }
                 }
 

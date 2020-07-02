@@ -351,7 +351,6 @@ namespace _4opeenrij.Objects
             this.UpdateToDB();
         }
 
-        
         public void CreateToDB()
         {
             using (SqlConnection connection = new SqlConnection("Data Source=DESKTOP-0NL1URL;Initial Catalog='B2D4 Casus';Integrated Security=True"))
