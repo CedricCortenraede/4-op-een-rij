@@ -97,16 +97,6 @@ namespace _4opeenrij
                 Thread.Sleep(1000);
             }
         }
-    
-        /*private void ShowCurrentStatusOfPlayingField()
-        {
-            while (game.Winner == null)
-            {
-                // TODO FRONT END -> kijk naar game.Moves wordt geupdate
-
-                Thread.Sleep(1000);
-            }
-        }*/
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
